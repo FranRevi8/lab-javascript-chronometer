@@ -3,6 +3,8 @@ class Chronometer {
     this.currentSec = 0;
     this.intervalId = null;
     this.splitArray = [];
+    this.currentMilisec = 0;
+    this.intervalForMilisecondsID = null;
   }
 
   start(callback) {
@@ -13,18 +15,26 @@ class Chronometer {
     this.intervalId = setInterval(() => {
       this.currentSec++;
     }, 1000);
+    this.intervalForMilisecondsID = setInterval(() => {
+      this.currentMilisec++;
+      if (this.currentMilisec >= 100) {
+        this.currentMilisec = 0;
+      }
+    }, 10);
   }
 
   getMinutes() {
-    // ... your code goes here
     return Math.floor(this.currentSec / 60);
-    ('62/60 -> 1.05... Math.floor-> 1');
+    // ('62/60 -> 1.05... Math.floor-> 1');
   }
 
   getSeconds() {
-    // ... your code goes here
     return this.currentSec % 60;
-    ('62/60 -> 2');
+    // ('62/60 -> 2');
+  }
+
+  getMiliseconds() {
+    return this.currentMilisec;
   }
 
   computeTwoDigitNumber(value) {
@@ -38,16 +48,21 @@ class Chronometer {
   stop() {
     console.log('Has pulsado Stop');
     clearInterval(this.intervalId);
+    clearInterval(this.intervalForMilisecondsID);
   }
 
   reset() {
     this.currentSec = 0;
+    this.currentMilisec = 0;
   }
 
   split() {
-    // ... your code goes here
-    // ¿?
-    // Si llaman a split -> splitArray.push(this.currentSec)
+    this.splitArray = [
+      this.computeTwoDigitNumber(this.getMinutes()),
+      this.computeTwoDigitNumber(this.getSeconds()),
+      this.computeTwoDigitNumber(this.getMiliseconds())
+    ];
+    return `${this.splitArray[0]} : ${this.splitArray[1]} : ${this.splitArray[2]}`;
   }
 }
 

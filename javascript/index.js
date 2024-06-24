@@ -16,48 +16,28 @@ const splitsElement = document.getElementById('splits');
 function printTime() {
   printMinutes();
   printSeconds();
-  printMilliseconds();  
+  printMilliseconds();
 }
 
 function printMinutes() {
-  const minutes = chronometer.computeTwoDigitNumber(chronometer.getMinutes())
+  const minutes = chronometer.computeTwoDigitNumber(chronometer.getMinutes());
   minDecElement.textContent = minutes[0];
   minUniElement.textContent = minutes[1];
 }
 
 function printSeconds() {
-  const seconds = chronometer.computeTwoDigitNumber(chronometer.getSeconds())
+  const seconds = chronometer.computeTwoDigitNumber(chronometer.getSeconds());
   secDecElement.textContent = seconds[0];
   secUniElement.textContent = seconds[1];
 }
 
 // ==> BONUS
 function printMilliseconds() {
-  // ... your code goes here
-}
-
-function printSplit() {
-  // ... your code goes here
-}
-
-function clearSplits() {
-  // ... your code goes here
-}
-
-function setStopBtn() {
-  // ... your code goes here
-}
-
-function setSplitBtn() {
-  // ... your code goes here
-}
-
-function setStartBtn() {
-  // ... your code goes here
-}
-
-function setResetBtn() {
-  // ... your code goes here
+  const miliseconds = chronometer.computeTwoDigitNumber(
+    chronometer.getMiliseconds()
+  );
+  milDecElement.textContent = miliseconds[0];
+  milUniElement.textContent = miliseconds[1];
 }
 
 // Start/Stop Button
@@ -69,7 +49,7 @@ btnLeftElement.addEventListener('click', () => {
     btnRightElement.textContent = 'SPLIT';
     chronometer.start();
     printTime();
-    intervalId = setInterval(printTime, 10);
+    intervalId = setInterval(printTime, 1);
   } else {
     btnLeftElement.className = 'btn start';
     btnLeftElement.textContent = 'START';
@@ -82,10 +62,14 @@ btnLeftElement.addEventListener('click', () => {
 
 // Reset/Split Button
 btnRightElement.addEventListener('click', () => {
-  if (btnLeftElement.className === 'btn start'){
+  if (btnLeftElement.className === 'btn start') {
+    console.log('Has pulsado Reset');
     chronometer.reset();
+    splitsElement.innerHTML = ``;
     printTime();
   } else {
-    chronometer.split();
+    console.log('Has pulsado Split');
+    let splitN = chronometer.split();
+    splitsElement.innerHTML += `<li class="list-item">${splitN}</li>`;
   }
 });
